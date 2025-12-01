@@ -1,0 +1,6 @@
+@EduAI.QuestionGenerator.Api_HostAddress = http://localhost:5270
+
+GET {{EduAI.QuestionGenerator.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
