@@ -34,13 +34,13 @@ namespace EduAI.QuestionGenerator.Api.ModelBinders
 
                 try
                 {
-                    // Try parsing as integer first
+                   
                     if (int.TryParse(value, out var intValue))
                     {
                         var enumValue = Enum.ToObject(elementType, intValue);
                         addMethod?.Invoke(result, new[] { enumValue });
                     }
-                    // Try parsing as string name
+        
                     else if (Enum.TryParse(elementType, value, true, out var enumValueByName))
                     {
                         addMethod?.Invoke(result, new[] { enumValueByName });
@@ -48,7 +48,7 @@ namespace EduAI.QuestionGenerator.Api.ModelBinders
                 }
                 catch
                 {
-                    // Skip invalid values
+                    throw new FormatException($"Value '{value}' is not valid for enum type '{elementType.Name}'.");
                 }
             }
 

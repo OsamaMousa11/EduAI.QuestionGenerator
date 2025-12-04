@@ -22,7 +22,7 @@ namespace EduAI.QuestionGenerator.Api.StartUp
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "LectureQuiz API",
+                    Title = "LectureQuestionController API",
                     Version = "v1",
                 });
             });

@@ -13,43 +13,38 @@ namespace EduAI.QuestionGenerator.Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Produces("application/json")]
-    public class QuizController : ControllerBase
+    public class QuestionController : ControllerBase
     {
         private readonly IQuestionService _questionService;
-        private readonly ILogger<QuizController> _logger;
+        private readonly ILogger<QuestionController> _logger;
 
         private static readonly string[] AllowedExtensions =
         {
             ".pdf", ".docx", ".doc", ".xlsx", ".xls", ".txt", ".pptx", ".ppt"
         };
 
-        public QuizController(
+        public QuestionController(
             IQuestionService questionService,
-            ILogger<QuizController> logger)
+            ILogger<QuestionController> logger)
         {
             _questionService = questionService;
             _logger = logger;
         }
 
-        /// <summary>
-        /// Generates a quiz from an uploaded file (PDF, Word, Excel, PowerPoint, or TXT)
-        /// </summary>
-        /// <param name="request">File and quiz generation parameters</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Generated quiz with questions</returns>
+     
         [HttpPost("generate")]
         [RequestSizeLimit(50 * 1024 * 1024)] // 50 MB max
         [ProducesResponseType(typeof(QuestionsResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(object), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(object), StatusCodes.Status415UnsupportedMediaType)]
         [ProducesResponseType(typeof(object), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GenerateQuiz(
+        public async Task<IActionResult> GenerateQuestion(
             [FromForm] FileUploadRequest request,
             CancellationToken cancellationToken = default)
         {
             try
             {
-                // Validate file presence
+               
                 if (request.File == null || request.File.Length == 0)
                 {
                     return BadRequest(new
@@ -59,7 +54,6 @@ namespace EduAI.QuestionGenerator.Api.Controllers
                     });
                 }
 
-                // Validate file extension
                 var ext = Path.GetExtension(request.File.FileName).ToLowerInvariant();
                 if (!AllowedExtensions.Contains(ext))
                 {
@@ -73,7 +67,7 @@ namespace EduAI.QuestionGenerator.Api.Controllers
                         });
                 }
 
-                // Validate file size
+               
                 if (request.File.Length > 50 * 1024 * 1024)
                 {
                     return BadRequest(new
@@ -89,7 +83,7 @@ namespace EduAI.QuestionGenerator.Api.Controllers
                     request.File.Length / 1024,
                     request.NumberOfQuestions);
 
-                // Generate quiz
+                
                 var quiz = await _questionService.GenerateQuestionsFromFileAsync(request, cancellationToken);
 
                 _logger.LogInformation(
