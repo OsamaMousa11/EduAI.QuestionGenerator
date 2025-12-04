@@ -13,7 +13,7 @@ namespace EduAI.QuestionGenerator.Infrastructure.Services
         private readonly ILogger<AiService> _logger;
         private readonly string _apiKey;
 
-        private const string ModelEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+        private const string ModelEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 
 
         public AiService(
